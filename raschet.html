@@ -2,64 +2,101 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>Расчет токов</title>
-	<link rel="stylesheet" href="style/style.css">
-	<script type="text/javascript">
-	// создание полей для ввода данных
-		function Lines_count(){
-			let text = "<p>Удельное сопротивление трансформатора - <input type='text' id=trans_oms>"
-			var lines_count_number = document.getElementById("userAnswer_Lines_count").value;
-			for (i=1;i<=lines_count_number; i++){
-				text = text + ("<p>Участок № "+ i +". <br>Cопротивление кабеля на участке - <input type='text' id=lines_oms_"+ i +">.<br> Длина кабеля на участке - <input type='text' id=lines_length_"+ i +"></p>")
-			}
-			text = text +("<p>После введения нажмите кнопку</p> <a href='#'' onClick='array_great();'' id='button'>Занести данные</a>")
-			document.getElementById("lines_count").innerHTML = text;
-		}
+    <meta charset="utf-8">
+    <title>Расчет токов</title>
+    <link rel="stylesheet" href="style/style.css">
+    <script type="text/javascript">
+        const select_oms = `<option value=37,8>Сечение = 1. Медь.</option>
+        <option value=25.2>Сечение = 1,5. Медь.</option>
+        <option value=15.1>Сечение = 2,5. Медь.</option>
+        <option value=9.3>Сечение = 4. Медь.</option>
+        <option value=6.12>Сечение = 6. Медь.</option>
+        <option value=3.68>Сечение = 10. Медь.</option>
+        <option value=2.4>Сечение = 16. Медь.</option>
+        <option value=1.49>Сечение = 25. Медь.</option>
+        <option value=1.09>Сечение = 35. Медь.</option>
+        <option value=0.79>Сечение = 50. Медь.</option>
+        <option value=0.58>Сечение = 70. Медь.</option>
+        <option value=0.428>Сечение = 95. Медь.</option>
+        <option value=0.35>Сечение = 120. Медь.</option>
+        <option value=0.285>Сечение = 150. Медь.</option>
+        <option value=0.27>Сечение = 185. Медь.</option>
+        <option value=25.2>Сечение = 2,5. Алюминий.</option>
+        <option value=15.8>Сечение = 4. Алюминий.</option>
+        <option value=10.5>Сечение = 6. Алюминий.</option>
+        <option value=6.32>Сечение = 10. Алюминий.</option>
+        <option value=3.96>Сечение = 16. Алюминий.</option>
+        <option value=2.56>Сечение = 25. Алюминий.</option>
+        <option value=1.84>Сечение = 35. Алюминий.</option>
+        <option value=1.29>Сечение = 50. Алюминий.</option>
+        <option value=0.93>Сечение = 70. Алюминий.</option>
+        <option value=0.797>Сечение = 95. Алюминий.</option>
+        <option value=0.561>Сечение = 120. Алюминий.</option>
+        <option value=0.446>Сечение = 150. Алюминий.</option>
+        <option value=0.45>Сечение = 185. Алюминий.</option>`
 
-	//Создание массива с веденными данными
-		function array_great(){
-			var lines_count_number = document.getElementById("userAnswer_Lines_count").value;
-			let lines_status = []
-			
-			for (i=1;i<=lines_count_number; i++){
-				let omsID = ("id=lines_oms_" + i + "")
-				let lengthID = ("id=lines_length_" + i + "")
-				console.log(omsID, lengthID)
-				/*
-				lines_status["line_number"] = i*/
-				console.log (document.getElementById(omsID).value)
-				console.log (document.getElementById(lengthID).value)
-			}
-			console.log(lines_status)
-		}
-	
-	</script>
+        let lines_status = []
+        
+
+        // создание полей для ввода данных
+        function Lines_count() {
+            let lines_count_number = document.getElementById("userAnswer_Lines_count").value;
+            let text = "<p>Удельное сопротивление трансформатора - <input type='number' id=trans_oms>"
+            for (i = 1; i <= lines_count_number; i++) {
+                text = text + ("<p>Участок № " + i + ". <br>Cопротивление кабеля на участке - <select id=lines_oms_" + i + ">" + select_oms + "</select>. Длина кабеля на участке - <input type='number' id=lines_length_" + i + "></p>")
+            }
+            text = text + ("<p>После введения нажмите кнопку</p> <a href='#'' onClick='array_great();'' id='button'>Занести данные</a>")
+            document.getElementById("lines_count").innerHTML = text;
+        }
+
+        //Создание массива с веденными данными
+        function array_great() {
+            lines_status = []
+            let lines_count_number = document.getElementById("userAnswer_Lines_count").value;
+            //0 значение массива - сопротивление трансформатора
+            lines_status.push(parseInt(document.getElementById("trans_oms").value))
+            //цикл вноса данных в массив.
+            for (i = 1; i <= lines_count_number; i++) {
+                let omsID = ("lines_oms_" + i + "")
+                let lengthID = ("lines_length_" + i + "")
+                let temparray = [] //временный массив
+                temparray.push(parseFloat(document.getElementById(omsID).value))
+                temparray.push(parseFloat(document.getElementById(lengthID).value))
+                //внесение данных в основной массив
+                lines_status.push(temparray)
+            }
+            console.log(lines_status)
+        }
+    </script>
 </head>
 
 <body>
 
-	<div class="content">
-		<div class="header">
-			<a href="index.html">Главная</a>
-			<a href="#">Рачет токов КЗ</a>
-		</div>
+    <div class="content">
+        <div class="header">
+            <a href="index.html">Главная</a>
+            <a href="#">Рачет токов КЗ</a>
+        </div>
 
-	<div class="box">
-		<h1>Расчет токов КЗ</h1>
-			<p>Введите количество участков</p>
-			<input type="text" id="userAnswer_Lines_count">
-			<br>
-			<a href="#" onClick="Lines_count();" id="button">Ввести</a>
-			<br><br><br>
-		<div id="lines_count">
+        <div class="box">
+            <h1>Расчет токов КЗ</h1>
+            
+            <div id="result">
+            </div>
 
-		</div>
-	</div>
+            <p>Введите количество участков</p>
+            <input type="number" id="userAnswer_Lines_count">
+            <br>
+            <a href="#" onClick="Lines_count();" id="button">Ввести</a>
+            <br><br><br>
+            <div id="lines_count">
 
-	<div class="footer">
-		Copyright &copy; Ilia Marchukov
-		<div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Copyright &copy; Ilia Marchukov
+            <div>
 </body>
 
 </html>
