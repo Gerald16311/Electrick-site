@@ -30,6 +30,7 @@ const select_oms = `<option value=37,8>Сечение = 1. Медь.</option>
 <option value=0.45>Сечение = 185. Алюминий.</option>`
 
 const select_trans = `<select id=trans_oms>
+<option value=0>Подключение к ВЛ</option>
 <option value=1.39>Мощность = 20. Масляный Y/Y</option>
 <option value=1.04>Мощность = 25. Масляный Y/Y</option>
 <option value=0.9>Мощность = 30. Масляный Y/Y</option>
@@ -64,7 +65,7 @@ const select_trans = `<select id=trans_oms>
 // создание полей для ввода данных
 function Lines_count() {
     let lines_count_number = document.getElementById("userAnswer_Lines_count").value;
-    let text = "<p>Удельное сопротивление трансформатора -" + select_trans
+    let text = "<br><p>Удельное сопротивление трансформатора -" + select_trans
     for (i = 1; i <= lines_count_number; i++) {
         text = text + ("<p>Участок № " + i + ". <br>Cопротивление кабеля на участке - <select id=lines_oms_" + i + ">" + select_oms + "</select>. Длина кабеля на участке - <input type='number' id=lines_length_" + i + "></p>")
     }
@@ -90,27 +91,35 @@ function array_great() {
     }
     console.log(lines_status)
     //внесение информации по количеству потребителей
-    text = ("<br><br><br><p>Введите информацию по количеству потребителей - <input type='number' id=eaters_count_inp></p><p>После введения нажмите кнопку</p> <a href='#'' onClick='eaters_count();'' id='button'>Занести данные</a>")
+    text = ("<br><br><br><br><p>Введите информацию по количеству потребителей - <input type='number' id=eaters_count_inp></p><p>После введения нажмите кнопку</p> <a href='#'' onClick='eaters_count();'' id='button'>Занести данные</a>")
     document.getElementById("eaters_count").innerHTML = text;
 }
 
 function eaters_count() {
     let eaters_count_number = parseInt(document.getElementById("eaters_count_inp").value)
     let lines_count_number = parseInt(document.getElementById("userAnswer_Lines_count").value)
-    let eaters_table = ""
-    let eaters_table_lines = ""
-    let result = "Номер потребителя "
+    let result = "<br><br><br><br><br><br><table border = 1 ><tr><td>№ потреб</td><td>потреб ТП</td>"
+
     for (i = 1; i <= lines_count_number; i++) {
-        result = result + ("Линия №" + i)
+        result = result + ("<td>Линия №" + i + "</td>")
     }
+    result = result + "</tr>"
+
     for (y = 1; y <= eaters_count_number; y++) {
-        eaters_table = eaters_table + ("<p>Потребитель №" + y)
-        for (i = 1; i <= lines_count_number; i++) {
-            eaters_table_lines = eaters_table_lines + ("<input type='checkbox' id=line_id_" + i + "_eater_id_" + y + " > ")
+        result = result + ("<tr><td>№" + y + "</td>")
+        for (i = 0; i <= lines_count_number; i++) {
+            result = result + ("<td><input type='checkbox' id=_eater_id_" + y + "_line_id_" + i + "</td>")
         }
-        eaters_table = eaters_table + eaters_table_lines + "<br><br>"
-        eaters_table_lines = ""
+
+        result = result + "</tr>"
     }
-    result = result + eaters_table
-    document.getElementById("eaters_count_table").innerHTML = result;
+    result = result + "</table><br><br><br><a href='#'' onClick='result_Zl_ikz();'' id='button'>Результаты Zl и Iкз</a>"
+    document.getElementById("eaters_count_table").innerHTML = result
+
+}
+
+function result_Zl_ikz(){
+    let result = ""
+
+    document.getElementById("result_Zl_Ikz").innerHTML = result
 }
